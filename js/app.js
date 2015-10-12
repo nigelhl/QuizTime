@@ -27,31 +27,32 @@ $(document).ready(function()
 
 	function quizAnswers(index)
 	{
-		for(i = addIndex(index); i < 6; i++) 
+		for(i = 0; i < 5; i++) 
 		{
-   			$('.Answers').append('<input type="radio" name="radio_name" />' + aArray[index][i] + ' <br>');
+   			$('.Answers form').append('<input type="radio" name="radio_name" />' + aArray[index][i] + '<br>');
 		}
 
 	}
 
+	// The sxore
+	var theScore = 0;
 	function checkAnswers()
 	{
-
+		var rand = Math.floor((Math.random() * 6) + 1);
+		return $('.Answers').append('<p>You scored ' + rand + ' out of 6</p>');
 	}
-
-	var questionNum = -1;
-	var numCorrect = 0;
 
 	// Start the quiz
 	$('.Start').on('click', function()
 	{
 		// remove congratulations text if quiz reran
 		$('.Questions p').hide();
+		$('.Answers p').hide();
 
 
 		var question = 'What is the capital city of ' + qArray[addIndex(index)] + '?'
 		$('.Questions').append('<p>' + question + '</p>');
-		quizAnswers(index);
+		quizAnswers(addIndex(index));
 		$('.Start').hide();
 		$('.buttonClass').show();
 		index++;
@@ -62,18 +63,21 @@ $(document).ready(function()
 	{
 		$('.Questions p').hide();
 		$('.Answers p').hide();
+		$('.Answers form').hide();
 
 		if(index < (qArray.length -1))
 		{
 			var question = 'What is the capital city of ' + qArray[addIndex(index)] + '?'
 			$('.Questions').append('<p>' + question + '</p>');
-			quizAnswers(index);
+			$('.Answers').append('<form></form>')
+			quizAnswers(addIndex(index));
 			index++;
 		} else
 		{
 			$('.buttonClass').hide();
 			$('.Start').show();
 			$('.Questions').append('<p> Congratulations! You have completed the quiz </p>');
+			checkAnswers()
 			index = -1;
 		}
 	});
